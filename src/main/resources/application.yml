@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: quillpost
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/quillpost}
+    username: ${SPRING_DATASOURCE_USERNAME:quillpost}
+    password: ${SPRING_DATASOURCE_PASSWORD:quillpost_dev}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  thymeleaf:
+    cache: false
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+quillpost:
+  jwt:
+    secret: ${JWT_SECRET:replace-with-32-char-minimum-secret-key-here}
+  media:
+    storage-path: ${MEDIA_STORAGE_PATH:./uploads}
