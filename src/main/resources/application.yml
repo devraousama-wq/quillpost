@@ -36,3 +36,14 @@ quillpost:
     secret: ${JWT_SECRET:replace-with-32-char-minimum-secret-key-here}
   media:
     storage-path: ${MEDIA_STORAGE_PATH:./uploads}
+
+spring.security.oauth2.client:
+  registration:
+    google:
+      client-id: ${OAUTH2_GOOGLE_CLIENT_ID:changeme}
+      client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET:changeme}
+      scope: openid, profile, email
+    github:
+      client-id: ${OAUTH2_GITHUB_CLIENT_ID:changeme}
+      client-secret: ${OAUTH2_GITHUB_CLIENT_SECRET:changeme}
+      scope: read:user, user:email
