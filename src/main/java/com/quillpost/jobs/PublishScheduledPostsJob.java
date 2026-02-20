@@ -1,0 +1,38 @@
+package com.quillpost.jobs;
+
+import com.quillpost.content.domain.Post;
+import com.quillpost.content.domain.PostStatus;
+import com.quillpost.content.repository.PostRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.List;
+
+@Component
+public class PublishScheduledPostsJob {
+
+    private static final Logger log = LoggerFactory.getLogger(PublishScheduledPostsJob.class);
+
+    private final PostRepository posts;
+
+    public PublishScheduledPostsJob(PostRepository posts) {
+        this.posts = posts;
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    @Transactional
+    public void run() {
+        Instant now = Instant.now();
+        List<Post> due = posts.findByStatusAndPublishAtLessThanEqual(PostStatus.SCHEDULED, now);
+        for (Post post : due) {
+            post.setStatus(PostStatus.PUBLISHED);
+            post.touchUpdatedAt();
+            posts.save(post);
+            log.info("published scheduled post {}", post.getId());
+        }
+    }
+}
