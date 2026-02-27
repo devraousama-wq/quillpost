@@ -18,14 +18,19 @@ public class PublishScheduledPostsJob {
     private static final Logger log = LoggerFactory.getLogger(PublishScheduledPostsJob.class);
 
     private final PostRepository posts;
+    private final JobLockService jobLockService;
 
-    public PublishScheduledPostsJob(PostRepository posts) {
+    public PublishScheduledPostsJob(PostRepository posts, JobLockService jobLockService) {
         this.posts = posts;
+        this.jobLockService = jobLockService;
     }
 
     @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void run() {
+        if (!jobLockService.tryAcquire("publish-scheduled-posts", 55)) {
+            return;
+        }
         Instant now = Instant.now();
         List<Post> due = posts.findByStatusAndPublishAtLessThanEqual(PostStatus.SCHEDULED, now);
         for (Post post : due) {
