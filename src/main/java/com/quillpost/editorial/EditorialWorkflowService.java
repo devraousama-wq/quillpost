@@ -3,6 +3,7 @@ package com.quillpost.editorial;
 import com.quillpost.content.domain.Post;
 import com.quillpost.content.domain.PostStatus;
 import com.quillpost.content.repository.PostRepository;
+import com.quillpost.feeds.FeedInvalidationListener.PostPublishedEvent;
 import com.quillpost.notifications.NotificationService.PostSubmittedEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,6 +82,9 @@ public class EditorialWorkflowService {
         Post saved = posts.save(post);
         if (target == PostStatus.IN_REVIEW) {
             events.publishEvent(new PostSubmittedEvent(post.getAuthor().getId(), post.getAuthor().getEmail()));
+        }
+        if (target == PostStatus.PUBLISHED) {
+            events.publishEvent(PostPublishedEvent.of(saved));
         }
         return saved;
     }
