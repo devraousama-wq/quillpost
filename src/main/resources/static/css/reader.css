@@ -1,0 +1,29 @@
+:root {
+    --bg: #faf9f7;
+    --text: #1a1a1a;
+    --accent: #2d6a4f;
+    --muted: #6b7280;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    margin: 0;
+    padding: 2rem;
+}
+
+main, article {
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+a {
+    color: var(--accent);
+}
+
+.meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
