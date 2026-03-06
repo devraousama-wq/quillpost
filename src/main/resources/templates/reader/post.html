@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${post.title()}">Post</title>
+    <meta name="description" th:content="${post.excerpt()}"/>
+    <meta property="og:title" th:content="${post.title()}"/>
+    <meta property="og:description" th:content="${post.excerpt()}"/>
+    <link rel="stylesheet" th:href="@{/css/reader.css}"/>
+</head>
+<body>
+<article>
+    <h1 th:text="${post.title()}">title</h1>
+    <p class="meta"><span th:text="${post.readingTimeMinutes()}">5</span> min read</p>
+    <div th:utext="${post.bodyHtml()}"></div>
+</article>
+</body>
+</html>
