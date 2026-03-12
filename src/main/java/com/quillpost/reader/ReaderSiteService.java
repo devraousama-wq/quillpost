@@ -6,6 +6,8 @@ import com.quillpost.content.dto.PostDetailDto;
 import com.quillpost.content.markdown.MarkdownService;
 import com.quillpost.content.repository.PostRepository;
 import com.quillpost.content.repository.WorkspaceRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class ReaderSiteService {
         this.markdownService = markdownService;
     }
 
+    @Cacheable(cacheNames = "readerHome", key = "#workspaceSlug")
     public List<Post> recentPublished(String workspaceSlug) {
         UUID workspaceId = workspaces.findBySlug(workspaceSlug)
             .orElseThrow(() -> new IllegalArgumentException("workspace not found"))
@@ -44,5 +47,9 @@ public class ReaderSiteService {
             post.getId(), post.getTitle(), post.getSlug(), post.getStatus(),
             post.getBodyMarkdown(), markdownService.toHtml(post.getBodyMarkdown()),
             post.getExcerpt(), post.getReadingTimeMinutes(), post.getPublishAt(), post.getUpdatedAt());
+    }
+
+    @CacheEvict(cacheNames = "readerHome", key = "#workspaceSlug")
+    public void evictHomeCache(String workspaceSlug) {
     }
 }
