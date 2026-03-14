@@ -3,6 +3,8 @@ package com.quillpost.editorial;
 import com.quillpost.content.domain.Post;
 import com.quillpost.content.domain.PostStatus;
 import com.quillpost.content.repository.PostRepository;
+import com.quillpost.notifications.NotificationService.PostSubmittedEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +29,11 @@ public class EditorialWorkflowService {
     }
 
     private final PostRepository posts;
+    private final ApplicationEventPublisher events;
 
-    public EditorialWorkflowService(PostRepository posts) {
+    public EditorialWorkflowService(PostRepository posts, ApplicationEventPublisher events) {
         this.posts = posts;
+        this.events = events;
     }
 
     @Transactional
@@ -74,6 +78,10 @@ public class EditorialWorkflowService {
         }
         post.setStatus(target);
         post.touchUpdatedAt();
-        return posts.save(post);
+        Post saved = posts.save(post);
+        if (target == PostStatus.IN_REVIEW) {
+            events.publishEvent(new PostSubmittedEvent(post.getAuthor().getId(), post.getAuthor().getEmail()));
+        }
+        return saved;
     }
 }
