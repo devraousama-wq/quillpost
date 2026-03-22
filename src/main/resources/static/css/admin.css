@@ -1,0 +1,46 @@
+body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    background: #111827;
+    color: #f9fafb;
+}
+
+nav {
+    padding: 1rem 1.5rem;
+    background: #1f2937;
+}
+
+nav a {
+    color: #93c5fd;
+    text-decoration: none;
+}
+
+main {
+    padding: 1.5rem;
+    max-width: 960px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-bottom: 1px solid #374151;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+input, textarea {
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.5rem;
+    background: #1f2937;
+    color: inherit;
+    border: 1px solid #374151;
+}
+
+label {
+    display: block;
+    margin-bottom: 1rem;
+}

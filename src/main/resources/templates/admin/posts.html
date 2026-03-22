@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Posts</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+<main>
+    <h1>Posts</h1>
+    <p>Status: <span th:text="${status}">DRAFT</span></p>
+    <table>
+        <thead><tr><th>Title</th><th>Slug</th><th>Updated</th></tr></thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.title()}">title</td>
+            <td th:text="${post.slug()}">slug</td>
+            <td th:text="${post.updatedAt()}">updated</td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{'/admin/w/' + ${workspaceId} + '/editor'}">New draft</a>
+</main>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Editor</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+<main>
+    <h1>Editor</h1>
+    <form>
+        <label>Title<input type="text" name="title"/></label>
+        <label>Body<textarea name="body" rows="16"></textarea></label>
+    </form>
+</main>
+</body>
+</html>
