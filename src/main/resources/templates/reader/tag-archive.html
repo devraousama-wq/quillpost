@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${tagSlug}">tag</title>
+    <link rel="stylesheet" th:href="@{/css/reader.css}"/>
+</head>
+<body>
+<main>
+    <h1 th:text="'#' + ${tagSlug}">tag</h1>
+    <ul>
+        <li th:each="post : ${posts}">
+            <a th:href="@{'/w/' + ${workspaceSlug} + '/p/' + ${post.slug}}" th:text="${post.title}">title</a>
+        </li>
+    </ul>
+</main>
+</body>
+</html>
