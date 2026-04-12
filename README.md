@@ -26,6 +26,22 @@ Health check: `GET http://localhost:8080/actuator/health`
 
 Layered packages under `com.quillpost`: web controllers split into `api`, `admin`, and `reader`; domain logic in feature modules (`content`, `editorial`, `media`, etc.); shared config and persistence helpers in `shared`.
 
+## Demo seed
+
+```bash
+SPRING_PROFILES_ACTIVE=seed ./mvnw spring-boot:run
+```
+
+Creates a `demo` workspace with a published welcome post when the seed profile is active.
+
+## OAuth2
+
+Set `OAUTH2_GOOGLE_CLIENT_ID`, `OAUTH2_GITHUB_CLIENT_ID`, and matching secrets in `.env`.
+
+## Editorial workflow
+
+Draft → in review → scheduled/published → archived. Transitions are enforced server-side; drafts cannot publish directly.
+
 ## License
 
 MIT
