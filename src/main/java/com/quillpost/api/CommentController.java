@@ -28,7 +28,8 @@ public class CommentController {
 
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<Comment> submit(@PathVariable UUID postId, @Valid @RequestBody SubmitCommentRequest request) {
-        return ResponseEntity.ok(commentService.submit(postId, request.authorEmail(), request.authorName(), request.bodyMarkdown()));
+        return ResponseEntity.ok(commentService.submit(
+            postId, request.authorEmail(), request.authorName(), request.bodyMarkdown(), request.parentId()));
     }
 
     @GetMapping("/workspaces/{workspaceId}/comments/moderation")
@@ -44,7 +45,8 @@ public class CommentController {
     public record SubmitCommentRequest(
         @NotBlank @Email String authorEmail,
         @NotBlank String authorName,
-        @NotBlank String bodyMarkdown
+        @NotBlank String bodyMarkdown,
+        UUID parentId
     ) {
     }
 }
