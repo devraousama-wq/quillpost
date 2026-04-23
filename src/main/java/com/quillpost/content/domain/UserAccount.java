@@ -30,6 +30,9 @@ public class UserAccount {
     @Column(nullable = false)
     private Instant createdAt = Instant.now();
 
+    @Column(nullable = false)
+    private boolean digestEnabled = true;
+
     protected UserAccount() {
     }
 
@@ -60,5 +63,13 @@ public class UserAccount {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public boolean isDigestEnabled() {
+        return digestEnabled;
+    }
+
+    public void setDigestEnabled(boolean digestEnabled) {
+        this.digestEnabled = digestEnabled;
     }
 }
