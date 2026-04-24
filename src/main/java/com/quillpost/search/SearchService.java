@@ -20,11 +20,16 @@ public class SearchService {
     }
 
     public List<Post> search(UUID workspaceId, String query) {
+        return searchResults(workspaceId, query).stream().map(SearchResultDto::post).toList();
+    }
+
+    public List<SearchResultDto> searchResults(UUID workspaceId, String query) {
         String q = query.toLowerCase(Locale.ROOT);
         return posts.findByWorkspaceIdAndStatusOrderByUpdatedAtDesc(workspaceId, PostStatus.PUBLISHED).stream()
             .filter(p -> p.getTitle().toLowerCase(Locale.ROOT).contains(q)
                 || (p.getBodyMarkdown() != null && p.getBodyMarkdown().toLowerCase(Locale.ROOT).contains(q)))
             .sorted(Comparator.comparingInt(p -> titleBoost(p, q)))
+            .map(p -> SearchResultDto.of(p, query))
             .toList();
     }
 
