@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Search</title>
+    <link rel="stylesheet" th:href="@{/css/reader.css}"/>
+</head>
+<body>
+<main>
+    <h1>Search</h1>
+    <p th:text="'Results for ' + ${query}">query</p>
+    <article th:each="r : ${results}">
+        <h2>
+            <a th:href="@{'/w/' + ${workspaceSlug} + '/p/' + ${r.post.slug}}" th:text="${r.post.title}">title</a>
+        </h2>
+        <p th:text="${r.snippet}">snippet</p>
+    </article>
+</main>
+</body>
+</html>
