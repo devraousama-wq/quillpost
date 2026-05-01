@@ -9,17 +9,26 @@
 <body>
 <main>
     <h1>Posts</h1>
-    <p>Status: <span th:text="${status}">DRAFT</span></p>
-    <table>
-        <thead><tr><th>Title</th><th>Slug</th><th>Updated</th></tr></thead>
-        <tbody>
-        <tr th:each="post : ${posts}">
-            <td th:text="${post.title()}">title</td>
-            <td th:text="${post.slug()}">slug</td>
-            <td th:text="${post.updatedAt()}">updated</td>
-        </tr>
-        </tbody>
-    </table>
+    <nav class="tabs">
+        <a th:each="s : ${statuses}"
+           th:href="@{'/admin/w/' + ${workspaceId} + '/posts?status=' + ${s}}"
+           th:text="${s}"
+           th:classappend="${s == status} ? 'active' : ''">DRAFT</a>
+    </nav>
+    <form th:action="@{'/admin/w/' + ${workspaceId} + '/posts/bulk-archive'}" method="post">
+        <table>
+            <thead><tr><th></th><th>Title</th><th>Slug</th><th>Updated</th></tr></thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td><input type="checkbox" name="postIds" th:value="${post.id()}"/></td>
+                <td th:text="${post.title()}">title</td>
+                <td th:text="${post.slug()}">slug</td>
+                <td th:text="${post.updatedAt()}">updated</td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit">Archive selected</button>
+    </form>
     <a th:href="@{'/admin/w/' + ${workspaceId} + '/editor'}">New draft</a>
 </main>
 </body>

@@ -7,9 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -37,7 +40,20 @@ public class AdminController {
             .toList());
         model.addAttribute("workspaceId", workspaceId);
         model.addAttribute("status", status);
+        model.addAttribute("statuses", Arrays.asList(PostStatus.values()));
         return "admin/posts";
+    }
+
+    @PostMapping("/w/{workspaceId}/posts/bulk-archive")
+    public String bulkArchive(@PathVariable UUID workspaceId, @RequestParam List<UUID> postIds) {
+        posts.findAllById(postIds).forEach(post -> {
+            if (post.getWorkspace().getId().equals(workspaceId)) {
+                post.setStatus(PostStatus.ARCHIVED);
+                post.touchUpdatedAt();
+                posts.save(post);
+            }
+        });
+        return "redirect:/admin/w/" + workspaceId + "/posts?status=ARCHIVED";
     }
 
     @GetMapping("/w/{workspaceId}/editor")
