@@ -44,3 +44,22 @@ label {
     display: block;
     margin-bottom: 1rem;
 }
+
+.tabs a {
+    margin-right: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.tabs a.active {
+    background: #374151;
+}
+
+button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}

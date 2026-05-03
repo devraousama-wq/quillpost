@@ -9,10 +9,18 @@
 <body>
 <main>
     <h1>Editor</h1>
-    <form>
-        <label>Title<input type="text" name="title"/></label>
-        <label>Body<textarea name="body" rows="16"></textarea></label>
+    <form id="editor-form">
+        <label>Title<input type="text" name="title" id="title-input"/></label>
+        <label>Body<textarea name="body" id="body-input" rows="16"></textarea></label>
     </form>
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+                e.preventDefault();
+                document.getElementById('editor-form').requestSubmit();
+            }
+        });
+    </script>
 </main>
 </body>
 </html>
